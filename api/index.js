@@ -10,25 +10,12 @@ import path from "path";
 
 dotenv.config();
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("MongoDb is connected");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
 const __dirname = path.resolve();
 
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-
-app.listen(3000, () => {
-  console.log("Server is running on port 3000!");
-});
 
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
@@ -49,4 +36,17 @@ app.use((err, req, res, next) => {
     statusCode,
     message,
   });
+});
+
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("MongoDb is connected");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+app.listen(3000, () => {
+  console.log("Server is running on port 3000!");
 });
