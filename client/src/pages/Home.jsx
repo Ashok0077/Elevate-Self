@@ -3,18 +3,37 @@ import { useEffect, useState } from "react";
 import PostCard from "../components/PostCard";
 
 import HeroImage from "../assets/HeroImage.svg";
+import { Spinner } from "flowbite-react";
+import { BASE_URL } from "../baseUrl";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await fetch("/api/post/getPosts");
-      const data = await res.json();
-      setPosts(data.posts);
+      try {
+        setIsLoading(true);
+        // const res = await fetch("/api/post/getPosts");
+        const res = await fetch(`${BASE_URL}/api/post/getPosts`);
+        const data = await res.json();
+        setPosts(data.posts);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+        console.log(error);
+      }
     };
     fetchPosts();
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spinner size="xl" className="w-32 h-32" />
+      </div>
+    );
+  }
 
   return (
     <div>

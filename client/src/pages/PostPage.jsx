@@ -7,6 +7,7 @@ import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useSelector } from "react-redux";
+import { BASE_URL } from "../baseUrl";
 
 export default function PostPage() {
   const { currentUser } = useSelector((state) => state.user);
@@ -24,7 +25,9 @@ export default function PostPage() {
     const fetchPost = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/post/getposts?slug=${postSlug}`);
+        const res = await fetch(
+          `${BASE_URL}/api/post/getposts?slug=${postSlug}`
+        );
         const data = await res.json();
         if (!res.ok) {
           setError(true);
@@ -47,7 +50,7 @@ export default function PostPage() {
   useEffect(() => {
     try {
       const fetchRecentPosts = async () => {
-        const res = await fetch(`/api/post/getposts?limit=3`);
+        const res = await fetch(`${BASE_URL}/api/post/getposts?limit=3`);
         const data = await res.json();
         if (res.ok) {
           setRecentPosts(data.posts);
@@ -62,7 +65,7 @@ export default function PostPage() {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await fetch(`/api/user/${post.userId}`);
+        const res = await fetch(`${BASE_URL}/api/user/${post.userId}`);
         const data = await res.json();
         setPostUser(data.username);
       } catch (error) {
@@ -76,7 +79,7 @@ export default function PostPage() {
     setShowModal(false);
     try {
       const res = await fetch(
-        `/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
+        `${BASE_URL}/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
         {
           method: "DELETE",
         }
