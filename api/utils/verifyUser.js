@@ -4,16 +4,16 @@ export const verifyToken = (req, res, next) => {
   console.log(req);
   const token = req.cookies.access_token;
   console.log("Token - ", token);
-  // res.json({
-  //   method: req.method,
-  //   url: req.url,
-  //   headers: req.headers,
-  //   cookies: req.cookies,
-  //   params: req.params,
-  //   query: req.query,
-  //   body: req.body,
-  //   token: token,
-  // });
+  res.json({
+    method: req.method,
+    url: req.url,
+    headers: req.headers,
+    cookies: req.cookies,
+    params: req.params,
+    query: req.query,
+    body: req.body,
+    token: token,
+  });
   if (token === undefined) {
     return next(
       errorHandler(
