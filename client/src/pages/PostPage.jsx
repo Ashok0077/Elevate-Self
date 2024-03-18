@@ -82,6 +82,7 @@ export default function PostPage() {
         `${BASE_URL}/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
         {
           method: "DELETE",
+          credentials: "include",
         }
       );
       const data = await res.json();
