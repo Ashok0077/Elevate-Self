@@ -25,7 +25,7 @@ export default function SignIn() {
     }
     try {
       dispatch(signInStart());
-      const res = await fetch(`${BASE_URL}/api/auth/signin`, {
+      const res = await fetch(`http://localhost:3000/api/auth/signin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -37,9 +37,9 @@ export default function SignIn() {
       }
 
       if (res.ok) {
-        const { token } = await res.json();
+        // const { token } = await res.json();
         // Store token in localStorage
-        localStorage.setItem("token", token);
+        localStorage.setItem("token", data.token);
         dispatch(signInSuccess(data));
         navigate("/");
       }
