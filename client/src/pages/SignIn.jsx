@@ -37,6 +37,9 @@ export default function SignIn() {
       }
 
       if (res.ok) {
+        const { token } = await res.json();
+        // Store token in localStorage
+        localStorage.setItem("token", token);
         dispatch(signInSuccess(data));
         navigate("/");
       }
