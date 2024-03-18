@@ -11,11 +11,18 @@ export default function DashPosts() {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState("");
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         // const res = await fetch(`/api/post/getposts?userId=${currentUser._id}`);
-        const res = await fetch(`${BASE_URL}/api/post/getposts`);
+        const res = await fetch(`${BASE_URL}/api/post/getposts`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const data = await res.json();
         if (res.ok) {
           setUserPosts(data.posts);
@@ -36,7 +43,13 @@ export default function DashPosts() {
     const startIndex = userPosts.length;
     try {
       const res = await fetch(
-        `${BASE_URL}/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`
+        `${BASE_URL}/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       const data = await res.json();
       if (res.ok) {

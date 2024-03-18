@@ -11,10 +11,17 @@ export default function DashUsers() {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState("");
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/api/user/getusers`);
+        const res = await fetch(`${BASE_URL}/api/user/getusers`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const data = await res.json();
         if (res.ok) {
           setUsers(data.users);
@@ -35,7 +42,13 @@ export default function DashUsers() {
     const startIndex = users.length;
     try {
       const res = await fetch(
-        `${BASE_URL}/api/user/getusers?startIndex=${startIndex}`
+        `${BASE_URL}/api/user/getusers?startIndex=${startIndex}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       const data = await res.json();
       if (res.ok) {
