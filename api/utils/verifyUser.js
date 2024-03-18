@@ -3,13 +3,13 @@ import { errorHandler } from "./error.js";
 export const verifyToken = (req, res, next) => {
   const token = req.cookies.access_token;
   console.log("Token - ", token);
-  res.json(token);
-  if (!token) {
-    return next(errorHandler(401, "Unauthorized Token"));
+  // res.json(token);
+  if (token === undefined) {
+    return next(errorHandler(401, "Unauthorized: Token is missing"));
   }
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
-      return next(errorHandler(401, "Unauthorized"));
+      return next(errorHandler(401, "Unauthorized: Invalid or expired token"));
     }
     req.user = user;
     next();
