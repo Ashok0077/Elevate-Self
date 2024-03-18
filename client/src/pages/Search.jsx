@@ -38,7 +38,7 @@ export default function Search() {
       setLoading(true);
       let searchQuery = urlParams.toString();
       // Check if category is uncategorized or search term is empty
-      if (categoryFromUrl === "uncategorized") {
+      if (categoryFromUrl === "uncategorized" && !searchQuery.trim()) {
         searchQuery = ""; // Empty the search query to retrieve all posts
       }
 

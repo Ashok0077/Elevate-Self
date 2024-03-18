@@ -30,7 +30,7 @@ export default function Home() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <Spinner size="xl" className="w-32 h-32" />
+        <Spinner size="xl" className="w-24 h-24" />
       </div>
     );
   }

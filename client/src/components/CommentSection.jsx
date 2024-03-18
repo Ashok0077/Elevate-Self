@@ -25,9 +25,7 @@ export default function CommentSection({ postId }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           content: comment,
