@@ -35,6 +35,7 @@ export default function Header() {
         console.log(data.message);
       } else {
         dispatch(signoutSuccess());
+        localStorage.removeItem("token");
       }
     } catch (error) {
       console.log(error.message);
