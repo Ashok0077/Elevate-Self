@@ -80,11 +80,15 @@ export default function PostPage() {
   const handleDeletePost = async () => {
     setShowModal(false);
     try {
+      const token = localStorage.getItem("token");
       const res = await fetch(
         `${BASE_URL}/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
         {
           method: "DELETE",
           credentials: "include",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       const data = await res.json();

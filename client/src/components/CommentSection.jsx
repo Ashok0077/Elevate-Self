@@ -7,6 +7,7 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { BASE_URL } from "../baseUrl";
 
 export default function CommentSection({ postId }) {
+  const token = localStorage.getItem("token");
   const { currentUser } = useSelector((state) => state.user);
   const [comment, setComment] = useState("");
   const [commentError, setCommentError] = useState(null);
@@ -24,6 +25,9 @@ export default function CommentSection({ postId }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
         body: JSON.stringify({
           content: comment,
@@ -69,6 +73,9 @@ export default function CommentSection({ postId }) {
         `${BASE_URL}/api/comment/likeComment/${commentId}`,
         {
           method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       if (res.ok) {
@@ -109,6 +116,9 @@ export default function CommentSection({ postId }) {
         `${BASE_URL}/api/comment/deleteComment/${commentId}`,
         {
           method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       if (res.ok) {

@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { BASE_URL } from "../baseUrl";
 
 export default function DashSidebar() {
+  const token = localStorage.getItem("token");
   const location = useLocation();
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
@@ -30,6 +31,9 @@ export default function DashSidebar() {
     try {
       const res = await fetch(`${BASE_URL}/api/user/signout`, {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       const data = await res.json();
       if (!res.ok) {

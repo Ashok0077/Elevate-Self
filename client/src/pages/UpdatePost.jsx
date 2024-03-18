@@ -93,12 +93,14 @@ export default function UpdatePost() {
     console.log("Submit ", formData);
 
     try {
+      const token = localStorage.getItem("token");
       const res = await fetch(
         `${BASE_URL}/api/post/updatepost/${postId}/${currentUser._id}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(formData),
           credentials: "include",

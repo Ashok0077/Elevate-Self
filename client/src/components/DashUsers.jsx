@@ -51,8 +51,12 @@ export default function DashUsers() {
 
   const handleDeleteUser = async () => {
     try {
+      const token = localStorage.getItem("token");
       const res = await fetch(`${BASE_URL}/api/user/delete/${userIdToDelete}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       const data = await res.json();
       if (res.ok) {

@@ -25,6 +25,7 @@ import { Link } from "react-router-dom";
 import { BASE_URL } from "../baseUrl";
 
 export default function DashProfile() {
+  const token = localStorage.getItem("token");
   const { currentUser, error, loading } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
@@ -118,6 +119,7 @@ export default function DashProfile() {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(formData),
         }
@@ -143,6 +145,9 @@ export default function DashProfile() {
         `${BASE_URL}/api/user/delete/${currentUser._id}`,
         {
           method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       const data = await res.json();
@@ -160,6 +165,9 @@ export default function DashProfile() {
     try {
       const res = await fetch(`${BASE_URL}/api/user/signout`, {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       const data = await res.json();
       if (!res.ok) {
