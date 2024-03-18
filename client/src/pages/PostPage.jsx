@@ -65,9 +65,11 @@ export default function PostPage() {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/api/user/${post.userId}`);
-        const data = await res.json();
-        setPostUser(data.username);
+        if (post) {
+          const res = await fetch(`${BASE_URL}/api/user/${post.userId}`);
+          const data = await res.json();
+          setPostUser(data.username);
+        }
       } catch (error) {
         console.log(error.message);
       }
@@ -122,7 +124,7 @@ export default function PostPage() {
           {post && post.category}
         </Button>
       </Link>
-      {post.userId === currentUser._id && (
+      {post && post.userId === currentUser._id && (
         <div className="flex items-center gap-5 justify-center py-5">
           <Link to={`/update-post/${post._id}`}>
             <FaEdit size="1.5rem" />
@@ -155,7 +157,7 @@ export default function PostPage() {
         dangerouslySetInnerHTML={{ __html: post && post.content }}
       ></div>
       <div className="max-w-4xl mx-auto w-full"></div>
-      <CommentSection postId={post._id} />
+      {post && <CommentSection postId={post._id} />}
 
       <div className="flex flex-col justify-center items-center mb-5">
         <h1 className="text-xl mt-5">Recent articles</h1>
