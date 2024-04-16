@@ -82,7 +82,7 @@ export default function PostPage() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `${BASE_URL}/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
+        `${BASE_URL}/api/post/deletepost/${postIdToDelete}/${currentUser?._id}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -128,7 +128,7 @@ export default function PostPage() {
           {post && post.category}
         </Button>
       </Link>
-      {post && post.userId === currentUser._id && (
+      {post && post.userId === currentUser?._id && (
         <div className="flex items-center gap-5 justify-center py-5">
           <Link to={`/update-post/${post._id}`}>
             <FaEdit size="1.5rem" />
