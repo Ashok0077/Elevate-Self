@@ -15,22 +15,63 @@ export default function CommentSection({ postId }) {
   const [showModal, setShowModal] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState(null);
   const navigate = useNavigate();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (comment.length > 200) {
+  //     return;
+  //   }
+  //   try {
+  //     const res = await fetch(`${BASE_URL}/api/comment/create`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: JSON.stringify({
+  //         content: comment,
+  //         postId,
+  //         userId: currentUser._id,
+  //       }),
+  //     });
+  //     const data = await res.json();
+  //     if (res.ok) {
+  //       setComment("");
+  //       setCommentError(null);
+  //       setComments([data, ...comments]);
+  //     }
+  //   } catch (error) {
+  //     setCommentError(error.message);
+  //   }
+  // };
+
+
+  //Start of the code updated by me!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (comment.length > 200) {
       return;
     }
     try {
+      // Analyze sentiment
+      const sentimentRes = await analyzeSentiment(comment);
+      const sentiment = sentimentRes.sentiment;
+      const sentimentLabel = sentiment > 0 ? "Positive" : sentiment < 0 ? "Negative" : "Neutral";
+      const sentimentConfidence = (Math.abs(sentiment) * 100).toFixed(2);
+  
+      console.log(sentimentLabel);
+      console.log(sentimentConfidence);
+      // Store comment with sentiment in MongoDB
       const res = await fetch(`${BASE_URL}/api/comment/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           content: comment,
+          sentimentLabel: sentimentLabel, // Store sentiment along with the comment
+          sentimentConfidence: sentimentConfidence,
           postId,
-          userId: currentUser._id,
         }),
       });
       const data = await res.json();
@@ -43,6 +84,27 @@ export default function CommentSection({ postId }) {
       setCommentError(error.message);
     }
   };
+  
+  // Function to analyze sentiment
+  const analyzeSentiment = async (text) => {
+    try {
+      const res = await fetch("http://localhost:5000/analyze_sentiment", {
+        method: "POST",
+        body: JSON.stringify({ text: text }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.error('Error:', error);
+      throw new Error("Failed to analyze sentiment");
+    }
+  };
+
+
+  // End of the code updated by me!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!S
 
   useEffect(() => {
     const getComments = async () => {
