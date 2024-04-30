@@ -44,7 +44,7 @@ Elevate Self is a feature-rich blog website designed to empower users to create,
 2. Navigate to the project directory and install dependencies using `npm install`.
 3. Set up environment variables for MongoDB connection, Firebase configuration, and Google OAuth credentials.
 4. Start the backend server using `npm start`.
-5. Navigate to the `client` directory and start the frontend server using `npm start`.
+5. Navigate to the `client` directory and start the frontend server using `npm run dev`.
 6. Access the website in your browser at `http://localhost:3000`.
 
 ## Contributing
