@@ -8,6 +8,7 @@ CORS(app)
 # @app.route("/")
 # def index():
 #     return render_template("index.html")
+# comment
 
 @app.route("/analyze_sentiment", methods=["POST"])
 def analyze_sentiment():
